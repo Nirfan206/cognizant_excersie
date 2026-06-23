@@ -1,0 +1,163 @@
+Exercise 1: Control Structures
+Scenario 1: Apply Discount to Loan Interest Rates
+Code
+BEGIN
+    FOR cust IN (
+        SELECT CustomerID
+        FROM Customers
+        WHERE Age > 60
+    )
+    LOOP
+        UPDATE Loans
+        SET InterestRate = InterestRate - 1
+        WHERE CustomerID = cust.CustomerID;
+
+        DBMS_OUTPUT.PUT_LINE(
+            'Discount applied for Customer ID: ' || cust.CustomerID
+        );
+    END LOOP;
+
+    COMMIT;
+END;
+/
+Output
+Discount applied for Customer ID: 101
+Discount applied for Customer ID: 103
+________________________________________
+Scenario 2: Promote Customers to VIP Status
+Code
+BEGIN
+    FOR cust IN (
+        SELECT CustomerID
+        FROM Customers
+        WHERE Balance > 10000
+    )
+    LOOP
+        UPDATE Customers
+        SET IsVIP = 'TRUE'
+        WHERE CustomerID = cust.CustomerID;
+
+        DBMS_OUTPUT.PUT_LINE(
+            'VIP Status assigned to Customer ID: ' || cust.CustomerID
+        );
+    END LOOP;
+
+    COMMIT;
+END;
+/
+Output
+VIP Status assigned to Customer ID: 102
+VIP Status assigned to Customer ID: 105
+________________________________________
+Scenario 3: Loan Due Reminder
+Code
+BEGIN
+    FOR loan_rec IN (
+        SELECT CustomerID, LoanID, DueDate
+        FROM Loans
+        WHERE DueDate BETWEEN SYSDATE AND SYSDATE + 30
+    )
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(
+            'Reminder: Loan ID ' || loan_rec.LoanID ||
+            ' for Customer ID ' || loan_rec.CustomerID ||
+            ' is due on ' || loan_rec.DueDate
+        );
+    END LOOP;
+END;
+/
+Output
+Reminder: Loan ID 201 for Customer ID 101 is due on 15-JUL-26
+Reminder: Loan ID 203 for Customer ID 103 is due on 10-JUL-26
+________________________________________
+Exercise 3: Stored Procedures
+Scenario 1: Process Monthly Interest
+Code
+CREATE OR REPLACE PROCEDURE ProcessMonthlyInterest
+AS
+BEGIN
+    UPDATE Accounts
+    SET Balance = Balance + (Balance * 0.01)
+    WHERE AccountType = 'SAVINGS';
+
+    COMMIT;
+
+    DBMS_OUTPUT.PUT_LINE('Monthly interest applied successfully.');
+END;
+/
+Execute
+BEGIN
+    ProcessMonthlyInterest;
+END;
+/
+Output
+Monthly interest applied successfully.
+________________________________________
+Scenario 2: Update Employee Bonus
+Code
+CREATE OR REPLACE PROCEDURE UpdateEmployeeBonus(
+    p_department IN VARCHAR2,
+    p_bonus_percent IN NUMBER
+)
+AS
+BEGIN
+    UPDATE Employees
+    SET Salary = Salary + (Salary * p_bonus_percent / 100)
+    WHERE Department = p_department;
+
+    COMMIT;
+
+    DBMS_OUTPUT.PUT_LINE('Bonus updated successfully.');
+END;
+/
+Execute
+BEGIN
+    UpdateEmployeeBonus('IT',10);
+END;
+/
+Output
+Bonus updated successfully.
+________________________________________
+Scenario 3: Transfer Funds
+Code
+CREATE OR REPLACE PROCEDURE TransferFunds(
+    p_source_account IN NUMBER,
+    p_target_account IN NUMBER,
+    p_amount IN NUMBER
+)
+AS
+    v_balance NUMBER;
+BEGIN
+
+    SELECT Balance
+    INTO v_balance
+    FROM Accounts
+    WHERE AccountID = p_source_account;
+
+    IF v_balance >= p_amount THEN
+
+        UPDATE Accounts
+        SET Balance = Balance - p_amount
+        WHERE AccountID = p_source_account;
+
+        UPDATE Accounts
+        SET Balance = Balance + p_amount
+        WHERE AccountID = p_target_account;
+
+        COMMIT;
+
+        DBMS_OUTPUT.PUT_LINE('Transfer completed successfully.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Insufficient balance.');
+    END IF;
+
+END;
+/
+Execute
+BEGIN
+    TransferFunds(101,102,5000);
+END;
+/
+Output
+Transfer completed successfully.
+
