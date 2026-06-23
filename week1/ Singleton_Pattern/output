@@ -1,0 +1,5 @@
+Logger instance created.
+LOG: First message
+LOG: Second message
+Only one Logger instance exists.
+
