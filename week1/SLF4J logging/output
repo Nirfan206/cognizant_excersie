@@ -1,0 +1,4 @@
+21:30:07.330 [main] ERROR org.example.LoggingExample - This is an error message
+21:30:07.333 [main] WARN org.example.LoggingExample - This is a warning message
+
+Process finished with exit code 0
