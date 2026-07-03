@@ -11,3 +11,8 @@ Response:
 
 Status:
 200 OK
+
+
+Console Output
+Tomcat started on port 8083 (http) with context path '/'
+Started SpringLearnApplication
