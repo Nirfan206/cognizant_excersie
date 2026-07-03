@@ -1,0 +1,27 @@
+REST - Country Web Service
+
+Browser Output:
+
+{
+  "code": "IN",
+  "name": "India"
+}
+
+Postman Output:
+
+Request:
+GET http://localhost:8083/country
+
+Response:
+{
+  "code": "IN",
+  "name": "India"
+}
+
+Status:
+200 OK
+
+Console Output:
+
+Tomcat started on port 8083 (http) with context path '/'
+Started SpringLearnApplication
