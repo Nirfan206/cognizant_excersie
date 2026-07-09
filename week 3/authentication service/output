@@ -1,0 +1,23 @@
+1. Browser Output
+
+http://localhost:8090/authenticate
+
+and enter:
+
+Username: user
+Password: pwd
+
+{
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNzgzNTgwNDk5LCJleHAiOjE3ODM1ODQwOTl9.npvA6b1RCshfqBZR1SeJwIdl4rbXFd8InyCDYi6fs34"
+}
+2. cURL Output
+
+Run:
+
+curl -u user:pwd http://localhost:8090/authenticate
+
+Output:
+
+{
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNzgzNTgwNDk5LCJleHAiOjE3ODM1ODQwOTl9.npvA6b1RCshfqBZR1SeJwIdl4rbXFd8InyCDYi6fs34"
+}
